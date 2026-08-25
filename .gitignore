@@ -1,0 +1,10 @@
+# Claude Code — machine-local, never committed
+.claude/settings.local.json
+CLAUDE.local.md
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
