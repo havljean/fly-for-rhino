@@ -7,22 +7,62 @@ machine.
 You need a Claude Pro, Max, Team, or Enterprise subscription. The free plan
 does not include Claude Code.
 
-## 1. Install — the desktop app (no terminal needed)
+## 1. Install the desktop app
 
-This is the easy path. The desktop app **includes Claude Code**: no Node.js,
-no CLI, no commands to type.
+The desktop app **includes Claude Code**: no Node.js and no separate CLI. It
+runs the same engine as the terminal version and reads the same config —
+`CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, skills — so
+everything in this repo works identically in either one.
+
+### Linux (Ubuntu 22.04+ / Debian 12+)
+
+Linux is in beta and installs through apt, so a terminal is needed here.
+Open one with `Ctrl` + `Alt` + `T`, or search for "Terminal" in the
+application launcher.
+
+Check the distribution and architecture first — the package only exists for
+Debian-based systems on `amd64` or `arm64`:
+
+```bash
+cat /etc/os-release | head -2
+dpkg --print-architecture
+```
+
+Add Anthropic's repository and install:
+
+```bash
+sudo apt install curl gnupg
+sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc
+echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main" | sudo tee /etc/apt/sources.list.d/claude-desktop.list
+sudo apt update && sudo apt install claude-desktop
+```
+
+Before trusting the key, confirm it is Anthropic's — the fingerprint must be
+`31DDDE24DDFAB679F42D7BD2BAA929FF1A7ECACE`:
+
+```bash
+gpg --show-keys /usr/share/keyrings/claude-desktop-archive-keyring.asc
+```
+
+Launch **Claude** from the application launcher, or run `claude-desktop`.
+
+The Linux app does not update itself; new versions arrive with
+`sudo apt update && sudo apt upgrade`. Computer Use and dictation are not in
+the Linux beta, and Fedora and RHEL are not supported — on those, use the
+CLI in section 3, which runs on far more distributions.
+
+### macOS and Windows
+
+Download and run the installer — no terminal involved:
 
 - macOS: <https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect>
 - Windows: <https://claude.ai/api/desktop/win32/x64/setup/latest/redirect>
 - Or the download page: <https://claude.com/download>
 
-Run the installer, launch Claude from Applications, sign in, then click the
-**Code** tab at the top. If Code asks you to upgrade, the account is on a
-free plan.
+### Then, on any platform
 
-The app runs the same engine as the terminal version and reads the same
-config — `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`, skills. So
-everything in this repo works identically in either one.
+Launch the app, sign in, and click the **Code** tab at the top. If Code asks
+you to upgrade, the account is on a free plan.
 
 ## 2. Get the project onto the machine
 
@@ -34,9 +74,9 @@ Clone https://github.com/havljean/fly-for-rhino into this folder
 and check out the branch claude/claude-app-folder-setup-9qqyck
 ```
 
-Claude runs the git commands for you. Most Macs already have git; on Windows
-install <https://git-scm.com/downloads/win> first, or local sessions won't
-start.
+Claude runs the git commands for you. Git has to be present first: most Macs
+ship with it, on Ubuntu or Debian run `sudo apt install git`, and on Windows
+install <https://git-scm.com/downloads/win> or local sessions won't start.
 
 Once the folder is open, `CLAUDE.md` and everything in `.claude/` load
 automatically. Type `/context` and check **Memory files** to confirm.
@@ -48,10 +88,12 @@ otherwise; the two can also be installed side by side on the same project.
 
 **Where the terminal is, if you have never opened it:**
 
+- Linux: press `Ctrl` + `Alt` + `T`, or search for "Terminal" in the
+  application launcher.
 - macOS: press `Cmd` + `Space`, type `Terminal`, press Enter. (Or Finder →
   Applications → Utilities → Terminal.)
 - Windows: Start menu → type `PowerShell`. PowerShell is Windows-only —
-  it does not exist on macOS or Linux.
+  it does not exist on macOS or Linux, so ignore it on those.
 
 macOS / Linux:
 
@@ -143,5 +185,6 @@ ln -s ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ## Reference
 
 - Desktop app: <https://code.claude.com/docs/en/desktop-quickstart>
+- Desktop app on Linux: <https://code.claude.com/docs/en/desktop-linux>
 - Terminal setup: <https://code.claude.com/docs/en/setup>
 - Memory and CLAUDE.md: <https://code.claude.com/docs/en/memory>
