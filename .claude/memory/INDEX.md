@@ -14,5 +14,6 @@ One line per note. Topic files hold the detail — open them on demand.
 - Target is Rhino 8 on macOS only; Windows is explicitly out of scope (Stork, Walkie and the original Fly already cover it).
 
 ## workflow.md — how this project is worked on
+- Dev machine is Ubuntu 26.04; Rhino has no Linux build, so nothing written here can be flown locally.
 - No automated tests; verification is a manual flight in Rhino 8 on Apple Silicon.
 - Development happens on `claude/*` branches, never directly on `main`.
